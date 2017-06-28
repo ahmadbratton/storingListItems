@@ -14,6 +14,17 @@ router.get("/", function (req , res) {
 
 
 });
+const getid = function (req, res, next) {
+  models.todos.findById(req.params.todoid).then(function (action) {
+    if (action){
+      req.action = action;
+      console.log(action);
+      next();
+    }else {
+      res.status(404).send("not found");
+    }
+  });
+}
 
 
 router.post("/", function (req, res) {
@@ -38,6 +49,13 @@ router.post("/", function (req, res) {
 
 
     res.redirect("/");
+});
+
+router.post("/:todoid/delete", getid, function (req, res) {
+  req.action.destroy().then(function () {
+    res.redirect("/");
+  });
+
 });
 
 module.exports = router;
