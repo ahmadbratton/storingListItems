@@ -12,13 +12,24 @@
           <input type="text" name="todo" placeholder="add todo...">
           <input type="submit" name="submit" value="submit">
         </div>
-        </form>
+        </form
+        <h1>Todo List</h1>
         {{#list}}
+        {{^complete}}
+        <form class="" action="/{{id}}/complete" method="post">
           <div class="todo">
-          <li>{{todos}}
-            <form class="" action="/{{id}}/delete" method="post">
-              <button type="submit" >Delete</button>
-            </form>
-          </li>
+          <li>{{todos}}</li>
         </div>
+        <button type="submit" >mark as complete</button>
+      </form>
+      {{/complete}}
+        {{/list}}
+        <h1>completed</h1>
+        {{#list}}
+        {{#complete}}
+        <li>{{todos}}</li>
+        <form class="" action="/{{id}}/delete" method="post">
+          <button type="submit" >Delete</button>
+        </form>
+        {{/complete}}
         {{/list}}

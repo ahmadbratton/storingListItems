@@ -6,7 +6,7 @@ let complete = [];
 
 router.get("/", function (req , res) {
   models.todos.findAll().then(function (items) {
-    res.render("index", {list: items});
+    res.render("index", {list: items ,complete: complete});
 
   });
 
@@ -28,7 +28,7 @@ const getid = function (req, res, next) {
 
 
 router.post("/", function (req, res) {
-  let list_item = {todos: req.body.todo}
+  let list_item = {todos: req.body.todo , complete: false}
   console.log(list_item);
   models.todos.create(list_item).then(function (todoitem) {
     console.log("31",todoitem);
@@ -49,6 +49,12 @@ router.post("/", function (req, res) {
 
 
     res.redirect("/");
+});
+
+router.post("/:todoid/complete" , getid ,function (req, res) {
+  req.action.complete = true;
+  req.action.save();
+  res.redirect("/");
 });
 
 router.post("/:todoid/delete", getid, function (req, res) {
